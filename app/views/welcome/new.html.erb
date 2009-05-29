@@ -1,0 +1,19 @@
+<div>
+  <%= error_messages_for :account_type %>
+</div>
+<p>What type of account do you wish to register?</p>
+<div>
+  <% form_for :account, choose_account_type_path do |f| %>
+    <div>
+      <%= f.label :owner, 'Pet Owner' %>
+      <%= f.radio_button :type, :owner, :checked => true %>
+    </div>
+    <div>
+      <%= f.label :kennel, 'Kennel' %>
+      <%= f.radio_button :type, :kennel %>
+      </div>
+    <div>
+      <%= f.submit "Continue" %>
+    </div>
+  <% end %>
+</div>

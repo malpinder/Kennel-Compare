@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <title>Kennel Compare</title>
+  </head>
+  <body>
+    <h4>Kennel Compare</h4>
+    <h5>for comparing kennels</h5>
+    <div>
+      <%= link_to "Sign Up", choose_account_type_path %>
+    </div>
+    <div>
+      <%= link_to "Log In", new_session_path %>
+    </div>
+
+    <div>
+      <%= yield %>
+    </div>
+  </body>
+</html>
