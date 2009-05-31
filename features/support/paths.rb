@@ -11,6 +11,9 @@ module NavigationHelpers
     when /the new owner page/
       new_owner_path
 
+    when /the owner account page/
+      owner_path(:id => '1')
+
     when /the new kennel page/
       new_kennel_path
     
@@ -32,6 +35,8 @@ module NavigationHelpers
 
     when /the new owner page/
       new_owner_url
+   when /the owner account page/
+      owner_url(:id => '1')
 
     when /the new kennel page/
       new_kennel_url

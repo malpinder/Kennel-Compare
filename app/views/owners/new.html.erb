@@ -1,6 +1,30 @@
-<%#
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-%>
-
-<%= "new.html" %>
+<div>
+  <%= error_messages_for :owner %>
+</div>
+<div>
+  <% form_for @owner do |f| %>
+    <p>
+    <%= f.label :first_name %>
+    <%= f.text_field :first_name %>
+    </p>
+    <p>
+    <%= f.label :surname %>
+    <%= f.text_field :surname %>
+    </p>
+    <p>
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+    </p>
+    <p>
+    <%= f.label :password_confirmation, "Confirm Password" %>
+    <%= f.password_field :password_confirmation %>
+    </p>
+    <p>
+    <%= f.label :email %>
+    <%= f.text_field :email %>
+    </p>
+    <p>
+    <%= f.submit 'Register' %>
+    </p>
+  <% end %>
+</div>
