@@ -1,6 +1,36 @@
-<%#
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-%>
-
-<%= "new.html" %>
+<% if error_messages_for(:kennel) %>
+  <div class="error">
+    <%= error_messages_for :kennel %>
+  </div>
+<% end %>
+<div>
+  <% form_for @kennel do |f| %>
+    <p>
+    <%= f.label :kennel_name %>
+    <%= f.text_field :kennel_name %>
+    </p>
+    <p>
+    <%= f.label :address %>
+    <%= f.text_area :address %>
+    </p>
+    <p>
+    <%= f.label :postcode %>
+    <%= f.text_field :postcode %>
+    </p>
+    <p>
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+    </p>
+    <p>
+    <%= f.label :password_confirmation, "Confirm Password" %>
+    <%= f.password_field :password_confirmation %>
+    </p>
+    <p>
+    <%= f.label :email %>
+    <%= f.text_field :email %>
+    </p>
+    <p>
+    <%= f.submit 'Register' %>
+    </p>
+  <% end %>
+</div>

@@ -16,6 +16,9 @@ module NavigationHelpers
 
     when /the new kennel page/
       new_kennel_path
+    when /the kennel account page/
+      kennel_path(:id => '1')
+
     
     # Add more page name => path mappings here
     
@@ -40,6 +43,8 @@ module NavigationHelpers
 
     when /the new kennel page/
       new_kennel_url
+    when /the kennel account page/
+      kennel_url(:id => '1')
 
     # Add more page name => path mappings here
 

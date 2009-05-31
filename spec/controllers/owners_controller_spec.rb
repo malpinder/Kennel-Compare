@@ -55,7 +55,7 @@ describe OwnersController do
       it 'should render :new' do
         @owner = mock_model(Owner, {:valid? => false, :save => false})
         Owner.stub!(:new).and_return(@owner)
-        post :create, {:owner => { :first_name => 'test', :surname => 'test', :password => 'testpass', :password_confirmation => 'testpass', :email => 'test@test.com'}}
+        post :create, {:owner => { :first_name => 'invalid', :surname => 'test', :password => 'testpass', :password_confirmation => 'testpass', :email => 'test@test.com'}}
         response.should render_template(:new)
       end
 
