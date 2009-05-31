@@ -1,6 +1,8 @@
-<div>
-  <%= error_messages_for :owner %>
-</div>
+<% if error_messages_for(:owner) %>
+  <div class="error">
+    <%= error_messages_for :owner %>
+  </div>
+<% end %>
 <div>
   <% form_for @owner do |f| %>
     <p>
