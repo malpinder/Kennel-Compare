@@ -14,11 +14,11 @@ Then /^I should see a form$/ do
 end
 
 Then /^I should see an error message$/ do
-  response.body.should have_tag('div.error')
+  response.body.should have_tag("div.error")
 end
 
 Then /^I should not see an error message$/ do
-  response.body.should_not have_tag('div.error')
+  response.body.should_not have_tag("div.error")
 end
 
 Then /^I should go to (.*)$/ do |page|
