@@ -1,0 +1,44 @@
+<div>Login:
+  <div id ="owner_form">
+    <% form_for :account, :url => session_path do |f|%>
+      <div>
+        If logging in as an owner:
+        <%= f.label :first_name %>
+        <%= f.text_field :first_name %>
+      </div>
+      <div>
+        <%= f.label :surname %>
+        <%= f.text_field :surname %>
+      </div>
+      <div>
+        <%= f.label :password %>
+        <%= f.password_field :password %>
+      </div>
+      <div>
+        <%= f.hidden_field :type, :value => :owner %>
+        <%= f.submit 'Login' %>
+      </div>
+    <% end %>
+  </div>
+  <div id="kennel_form">
+      <% form_for :account, :url => session_path do |f|%>
+        <div>
+          Or as a kennel:
+          <%= f.label :kennel_name %>
+          <%= f.text_field :kennel_name %>
+        </div>
+        <div>
+          <%= f.label :postcode %>
+          <%= f.text_field :postcode %>
+        </div>
+        <div>
+          <%= f.label :password%>
+          <%= f.password_field :password %>
+        </div>
+        <div>
+          <%= f.hidden_field :type, :value => :kennel %>
+          <%= f.submit 'Login' %>
+        </div>
+      <% end %>
+  </div>
+</div>

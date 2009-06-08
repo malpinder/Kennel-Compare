@@ -105,4 +105,24 @@ describe Owner do
       @owner.crypted_password.should_not == @owner.password
     end
   end
+
+  describe 'method valid_owner_account' do
+    before do
+      @owner = Owner.create(valid_owner_attributes)
+    end
+    it 'should check the db for the existence of the provided names' do
+      Owner.should_receive :find_by_first_name_and_surname
+      Owner.valid_owner_account(:first_name => 'test', :surname => 'test', :password => 'password')
+    end
+    it 'should return nil if both names are invalid' do
+      Owner.valid_owner_account(:first_name => 'invalid', :surname => 'test', :password => 'password').should be_nil
+    end
+    it 'should return nil if the names and password do not match' do
+      Owner.valid_owner_account(:first_name => 'test', :surname => 'test', :password =>'wrong').should be_nil
+    end
+    it 'should return the account if the names and password do match' do
+      Owner.valid_owner_account(:first_name => 'test', :surname => 'test', :password => 'password').should == @owner
+    end
+  end
+
 end

@@ -30,4 +30,14 @@ class Owner < ActiveRecord::Base
     return if password.nil?
     self.crypted_password = Digest::SHA1.hexdigest(password+salt)
   end
+
+  def self.valid_owner_account(attrs)
+    first_name = attrs[:first_name]
+    surname = attrs[:surname]
+    @owner = Owner.find_by_first_name_and_surname(first_name, surname)
+    return nil if @owner.nil?
+    crypted_password = Digest::SHA1.hexdigest(attrs[:password]+@owner.salt)
+    return nil unless @owner.crypted_password == crypted_password
+    @owner
+  end
 end

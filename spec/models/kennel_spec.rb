@@ -60,6 +60,12 @@ describe Kennel do
       @kennel.should have(1).error_on(:postcode)
     end
 
+    it 'should not accept an account with an existing postcode' do
+      Kennel.create(valid_kennel_attributes)
+      @kennel.attributes = valid_kennel_attributes
+      @kennel.should have(1).error_on(:postcode)
+    end
+
     it 'should not accept an account with an invalid postcode' do
       @kennel.attributes = valid_kennel_attributes.except(:postcode)
       @kennel.postcode = 'invalid'
@@ -116,6 +122,24 @@ describe Kennel do
       @kennel.save
       @kennel.crypted_password.should_not be_nil
       @kennel.crypted_password.should_not == @kennel.password
+    end
+  end
+  describe 'method valid_kennel_account' do
+    before do
+      @kennel = Kennel.create(valid_kennel_attributes)
+    end
+    it 'should check the db for the existence of the provided name and postcode' do
+      Kennel.should_receive :find_by_kennel_name_and_postcode
+      Kennel.valid_kennel_account(:kennel_name => 'test', :postcode => 'A1 1AA', :password => 'password')
+    end
+    it 'should return nil if name and postcode are invalid' do
+      Kennel.valid_kennel_account(:kennel_name => 'invalid', :postcode => 'A1 1AA', :password => 'password').should be_nil
+    end
+    it 'should return nil if the names and password do not match' do
+      Kennel.valid_kennel_account(:kennel_name => 'test', :postcode => 'A1 1AA', :password =>'wrong').should be_nil
+    end
+    it 'should return the account if the names and password do match' do
+      Kennel.valid_kennel_account(:kennel_name => 'test', :postcode => 'A1 1AA', :password => 'password').should == @kennel
     end
   end
 end

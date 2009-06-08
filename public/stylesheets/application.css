@@ -2,4 +2,12 @@ body {background-color:#ffffff;}
 
 .error {width:685px;padding:.8em;margin-bottom:1em;border:2px solid #ddd;}
 .error {background:#d8dee8;color:#455c79;border-color:#98b7c8;}
-.error a {color:#d8dee8;}
+.error a {color:#000000;}
+
+.warning {width:685px;padding:.8em;margin-bottom:1em;border:2px solid #ddd;}
+.warning {background:#d8dee8;color:#455c79;border-color:#98b7c8;}
+.warning a {color:#000000;}
+
+.notice {width:685px;padding:.8em;margin-bottom:1em;border:2px solid #ddd;}
+.notice {background:#d8dee8;color:#455c79;border-color:#98b7c8;}
+.notice a {color:#000000;}

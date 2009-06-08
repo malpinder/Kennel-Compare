@@ -9,7 +9,7 @@ class Kennel < ActiveRecord::Base
 
   validates_presence_of :postcode
   validates_format_of :postcode, :with => /^([A-PR-UWYZ0-9][A-HK-Y0-9][AEHMNPRTVXY0-9]?[ABEHMNPRVWXY0-9]? {1,2}[0-9][ABD-HJLN-UW-Z]{2}|GIR 0AA)$/i, :allow_nil => true
-
+  validates_uniqueness_of :postcode
 
   validates_presence_of :password
   validates_length_of :password, :in => 6..24, :allow_nil => true
@@ -33,5 +33,15 @@ class Kennel < ActiveRecord::Base
   def encrypt_password
     return if password.nil?
     self.crypted_password = Digest::SHA1.hexdigest(password+salt)
+  end
+
+  def self.valid_kennel_account(attrs)
+    name = attrs[:kennel_name]
+    postcode = attrs[:postcode]
+    @kennel = Kennel.find_by_kennel_name_and_postcode(name, postcode)
+    return nil if @kennel.nil?
+    crypted_password = Digest::SHA1.hexdigest(attrs[:password]+@kennel.salt)
+    return nil unless @kennel.crypted_password == crypted_password
+    @kennel
   end
 end
