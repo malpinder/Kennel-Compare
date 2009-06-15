@@ -1,6 +1,17 @@
 Given /^I am a visitor$/ do
 end
 
+#why does posting directly to session_path work fine here, but not later on?
+Given /^I am a pet owner$/ do
+  post owners_path, :owner => {:first_name => 'valid', :surname => 'test', :password => 'testpass', :password_confirmation => 'testpass', :email => 'test@test.com'}
+  post session_path, :account => {:first_name => 'valid', :surname => 'test', :password => 'testpass', :type => 'owner'}
+end
+
+Given /^I am a kennel manager$/ do
+  post kennels_path, :kennel => {:kennel_name => 'valid', :address => 'test', :postcode => 'A1 1AA', :password => 'testpass', :password_confirmation => 'testpass', :email => 'test@test.com'}
+  post session_path, :account => {:kennel_name => 'valid', :postcode => 'A1 1AA', :password => 'testpass', :type => 'kennel'}
+end
+
 Given /^I am viewing (.*)$/ do |page|
   visits path_to(page)
 end
@@ -13,7 +24,7 @@ Given /^I have a kennel account$/ do
   post kennels_path, :kennel => {:kennel_name => 'valid', :address => 'test', :postcode => 'A1 1AA', :password => 'testpass', :password_confirmation => 'testpass', :email => 'test@test.com'}
 end
 
-#these two do it the long way, because for some strange reason, posting directly to session_path doesn't work
+#these two do it the long way, because for some strange reason, posting directly to session_path doesn't redirect properly
 When /^I log in with (valid|invalid) owner details$/ do |type|
   visit path_to("the login page")
   within "div#owner_form" do |scope|
@@ -38,17 +49,24 @@ Then /^I should see a link to "(.+)"$/ do |link|
   response.body.should have_tag('a', link)
 end
 
+Then /^I should not see a link to "(.+)"$/ do |link|
+  response.body.should_not have_tag('a', link)
+end
+
 Then /^I should see a form$/ do
   response.body.should have_tag('form')
 end
 
-Then /^I (should|should not) see (a|an) (notice|warning|error) message$/ do |might, grammar, type|
-  if might == 'should'
-    response.body.should have_tag("div.#{type}")
-  end
-  if might == 'should not'
-    response.body.should_not have_tag("div.#{type}")
-  end
+Then /^I should see (a|an) (notice|warning|error) message$/ do |grammar, type|
+  response.body.should have_tag("div.#{type}")
+end
+
+Then /^I should not see (a|an) (notice|warning|error) message$/ do |grammar, type|
+   response.body.should_not have_tag("div.#{type}")
+end
+
+Then /^I should see who I am logged in as$/ do
+  response.body.should contain("You are logged in as")
 end
 
 Then /^I should go to (.*)$/ do |page|

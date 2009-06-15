@@ -12,10 +12,22 @@
     <h4>Kennel Compare</h4>
     <h5>for comparing kennels</h5>
     <div>
-      <%= link_to "Sign Up", choose_account_type_path %>
-    </div>
-    <div>
-      <%= link_to "Log In", new_session_path %>
+      <% if logged_in? %>
+        <div>
+          You are logged in as <%= current_user_name %>.
+          <%= link_to 'Not you?', new_session_path %>
+        </div>
+        <div>
+        <%= link_to 'Log Out', session_path, :method => :delete %>
+        </div>
+      <% else %>
+        <div>
+          <%= link_to "Sign Up", choose_account_type_path %>
+        </div>
+        <div>
+          <%= link_to "Log In", new_session_path %>
+        </div>
+      <% end %>
     </div>
   <% if flash[:error]%>
     <div class ="error">

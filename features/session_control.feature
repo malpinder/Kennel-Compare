@@ -23,3 +23,10 @@ Examples:
   |owner    |invalid owner details  |should not |a warning|
   |kennel   |valid kennel details   |should     |a notice |
   |kennel   |invalid kennel details |should not |a warning|
+
+Scenario: A user wishes to log out
+  Given I am a pet owner
+  And I am viewing the main page
+  When I follow "Log Out"
+  Then I should go to the login page
+  And I should see a notice message

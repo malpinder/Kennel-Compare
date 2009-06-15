@@ -117,4 +117,24 @@ describe SessionsController do
       end
     end
   end
+  describe "DELETE destroy" do
+    it 'should set the session id to nil' do
+      session[:user_id] = '1'
+      delete :destroy
+      session[:user_id].should be_nil
+    end
+    it 'should set the session user type to nil' do
+      session[:user_type] = 'owner'
+      delete :destroy
+      session[:user_type].should be_nil
+    end
+    it 'should add a notice to the flash' do
+      delete :destroy
+      flash[:notice].should_not be_nil
+    end
+    it 'should redirect to the login page' do
+      delete :destroy
+      response.should redirect_to new_session_path
+    end
+  end
 end
