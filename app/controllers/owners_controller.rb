@@ -18,6 +18,8 @@ class OwnersController < ApplicationController
   end
 
   def show
-    
+  end
+  def edit
+    redirect_to new_kennel_path
   end
 end

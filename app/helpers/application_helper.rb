@@ -13,4 +13,6 @@ module ApplicationHelper
       return "#{user.kennel_name}"
     end
   end
+  def page_viewed_by_authorised_user?
+  end
 end

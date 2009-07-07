@@ -18,7 +18,10 @@
           <%= link_to 'Not you?', new_session_path %>
         </div>
         <div>
-        <%= link_to 'Log Out', session_path, :method => :delete %>
+          <%= link_to 'Log Out', session_path, :method => :delete %>
+        </div>
+        <div>
+          <%= link_to 'My Account', :controller => "#{session[:user_type]}s", :action => :edit, :id => session[:user_id]%>
         </div>
       <% else %>
         <div>

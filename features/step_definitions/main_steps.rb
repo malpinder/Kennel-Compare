@@ -1,7 +1,8 @@
 Given /^I am a visitor$/ do
 end
+Given /^I am not logged in$/ do
+end
 
-#why does posting directly to session_path work fine here, but not later on?
 Given /^I am a pet owner$/ do
   post owners_path, :owner => {:first_name => 'valid', :surname => 'test', :password => 'testpass', :password_confirmation => 'testpass', :email => 'test@test.com'}
   post session_path, :account => {:first_name => 'valid', :surname => 'test', :password => 'testpass', :type => 'owner'}
@@ -24,7 +25,6 @@ Given /^I have a kennel account$/ do
   post kennels_path, :kennel => {:kennel_name => 'valid', :address => 'test', :postcode => 'A1 1AA', :password => 'testpass', :password_confirmation => 'testpass', :email => 'test@test.com'}
 end
 
-#these two do it the long way, because for some strange reason, posting directly to session_path doesn't redirect properly
 When /^I log in with (valid|invalid) owner details$/ do |type|
   visit path_to("the login page")
   within "div#owner_form" do |scope|

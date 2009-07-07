@@ -19,3 +19,4 @@ Scenario: A pet owner has logged in
   When I go to the main page
   Then I should see who I am logged in as
   And I should see a link to "Not you?"
+  And I should see a link to "My Account"

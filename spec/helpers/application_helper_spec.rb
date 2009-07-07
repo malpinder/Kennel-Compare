@@ -29,4 +29,28 @@ describe ApplicationHelper do
       helper.current_user_name.should be_nil
     end
   end
+
+  describe 'page_viewed_by_authorised_user?' do
+    before do
+      request.stub(:url).and_return('http://test.host/owner/1')
+    end
+    it 'should return false if there is no user logged in' do
+      helper.page_viewed_by_authorised_user?.should be_false
+    end
+    it 'should return false if the user types match, but not the ids' do
+      session[:user_id] = '2'
+      session[:user_type] = 'owner'
+      helper.page_viewed_by_authorised_user?.should be_false
+    end
+    it 'should return false if the ids match but not the user types' do
+      session[:user_id] = '1'
+      session[:user_type] = 'kennel'
+      helper.page_viewed_by_authorised_user?.should be_false
+    end
+    it 'should return true if the ids and user types match' do
+      session[:user_id] = '1'
+      session[:user_type] = 'owner'
+      helper.page_viewed_by_authorised_user?.should be_true
+    end
+  end
 end
