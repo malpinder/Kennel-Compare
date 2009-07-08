@@ -28,7 +28,7 @@ module NavigationHelpers
       new_session_path
 
     when /the first pet owner account page/
-      edit_owner_path(1)
+      owner_path(1)
     
     # Add more mappings here.
     # Here is a more fancy example:

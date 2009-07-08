@@ -14,5 +14,13 @@ module ApplicationHelper
     end
   end
   def page_viewed_by_authorised_user?
+    unless logged_in?
+      @warning_message = 'You must be logged in as an authorised user to access this page.'
+      return false
+    end
+
+    return true if session[:user_id] == request.path_parameters[:id] && session[:user_type] == request.path_parameters[:controller]
+    @warning_message = 'You do not have the correct permissions to access this page.'
+    false
   end
 end

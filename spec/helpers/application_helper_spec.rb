@@ -32,7 +32,8 @@ describe ApplicationHelper do
 
   describe 'page_viewed_by_authorised_user?' do
     before do
-      request.stub(:url).and_return('http://test.host/owner/1')
+      request.stub(:path_parameters).and_return({:action => 'edit', :controller => 'owner', :id => '1'})
+
     end
     it 'should return false if there is no user logged in' do
       helper.page_viewed_by_authorised_user?.should be_false
