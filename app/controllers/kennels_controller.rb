@@ -12,7 +12,7 @@ class KennelsController < ApplicationController
     end
 
     @kennel.save
-    session[:user_type] = 'kennel'
+    session[:user_type] = 'kennels'
     session[:user_id] = @kennel.id
     redirect_to kennel_path(@kennel)
   end

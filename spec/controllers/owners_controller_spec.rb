@@ -47,7 +47,7 @@ describe OwnersController do
       end
       it 'should log them in as an owner' do
         post :create, post_data
-        session[:user_type].should == 'owner'
+        session[:user_type].should == 'owners'
       end
     end
 
@@ -62,4 +62,44 @@ describe OwnersController do
     end
   end
 
+  describe 'GET edit' do
+    describe 'when viewed by the page owner' do
+      before do
+        session[:user_id] = '1'
+        session[:user_type] = 'owners'
+      end
+      it 'should not redirect them anywhere else' do
+        get :edit
+        response.should_not redirect_to(new_session_path)
+      end
+      it 'should not add a warning to the flash' do
+        get :edit
+        flash[:warning].should be_nil
+      end
+    end
+    describe 'when viewed by a different user' do
+      before do
+        session[:user_id] = '2'
+        session[:user_type] = 'owners'
+      end
+      it 'should redirect them to their own page' do
+        get :edit
+        response.should redirect_to owner_path(session[:user_id])
+      end
+      it 'should add a warning to the flash' do
+        get :edit
+        flash[:warning].should_not be_nil
+      end
+    end
+    describe 'when viewed by a user who is not logged in' do
+      it 'should redirect them to the login page' do
+        get :edit
+        response.should redirect_to new_session_path
+      end
+      it 'should add a warning to the flash' do
+        get :edit
+        flash[:warning].should_not be_nil
+      end
+    end
+  end
 end

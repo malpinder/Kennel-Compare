@@ -47,7 +47,7 @@ describe KennelsController do
       end
       it 'should log them in as a kennel' do
         post :create, post_data
-        session[:user_type].should == 'kennel'
+        session[:user_type].should == 'kennels'
       end
     end
 
