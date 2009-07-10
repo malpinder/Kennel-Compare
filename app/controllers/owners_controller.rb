@@ -18,6 +18,11 @@ class OwnersController < ApplicationController
   end
 
   def show
+    if page_viewed_by_authorised_user == false
+      redirect_to root_path
+      return
+    end
+    raise 'aarabdefkbsdflfbjldfg'
   end
   def edit
   end

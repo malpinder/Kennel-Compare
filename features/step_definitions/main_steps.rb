@@ -1,6 +1,8 @@
 Given /^I am a visitor$/ do
 end
 Given /^I am not logged in$/ do
+  visit path_to('the main page')
+  click_link('Log Out')
 end
 
 Given /^I am a pet owner$/ do

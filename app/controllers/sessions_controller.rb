@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
       end
 
       session[:user_id] = @owner.id
-      session[:user_type] = 'owner'
+      session[:user_type] = 'owners'
       flash[:notice] = 'You have been logged in.'
       redirect_to owner_path(@owner.id)
 
@@ -27,7 +27,7 @@ class SessionsController < ApplicationController
         end
 
         session[:user_id] = @kennel.id
-        session[:user_type] = 'kennel'
+        session[:user_type] = 'kennels'
         flash[:notice] = 'You have been logged in.'
         redirect_to kennel_path(@kennel.id)
       else

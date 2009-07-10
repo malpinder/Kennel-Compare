@@ -29,7 +29,7 @@ describe SessionsController do
         end
         it 'should store the account type in the session' do
           post :create, post_owner_data
-          session[:user_type].should == 'owner'
+          session[:user_type].should == 'owners'
         end
         it 'should redirect to the owner home page' do
           post :create, post_owner_data
@@ -86,7 +86,7 @@ describe SessionsController do
         end
         it 'should store the account type in the session' do
           post :create, post_kennel_data
-          session[:user_type].should == 'kennel'
+          session[:user_type].should == 'kennels'
         end
         it 'should redirect to the kennel home page' do
           post :create, post_kennel_data
@@ -124,7 +124,7 @@ describe SessionsController do
       session[:user_id].should be_nil
     end
     it 'should set the session user type to nil' do
-      session[:user_type] = 'owner'
+      session[:user_type] = 'owners'
       delete :destroy
       session[:user_type].should be_nil
     end
