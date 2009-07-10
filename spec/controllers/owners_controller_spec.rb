@@ -69,11 +69,11 @@ describe OwnersController do
         session[:user_type] = 'owners'
       end
       it 'should not redirect them anywhere else' do
-        get :edit
+        get :edit, :id => 1
         response.should_not redirect_to(new_session_path)
       end
       it 'should not add a warning to the flash' do
-        get :edit
+        get :edit, :id => 1
         flash[:warning].should be_nil
       end
     end
@@ -83,21 +83,21 @@ describe OwnersController do
         session[:user_type] = 'owners'
       end
       it 'should redirect them to their own page' do
-        get :edit
+        get :edit, :id => 1
         response.should redirect_to owner_path(session[:user_id])
       end
       it 'should add a warning to the flash' do
-        get :edit
+        get :edit, :id => 1
         flash[:warning].should_not be_nil
       end
     end
     describe 'when viewed by a user who is not logged in' do
       it 'should redirect them to the login page' do
-        get :edit
+        get :edit, :id => 1
         response.should redirect_to new_session_path
       end
       it 'should add a warning to the flash' do
-        get :edit
+        get :edit, :id => 1
         flash[:warning].should_not be_nil
       end
     end

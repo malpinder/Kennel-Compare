@@ -29,6 +29,9 @@ module NavigationHelpers
 
     when /the first pet owner account page/
       owner_path(1)
+
+    when /the first pet owner edit page/
+      edit_owner_path(1)
     
     # Add more mappings here.
     # Here is a more fancy example:

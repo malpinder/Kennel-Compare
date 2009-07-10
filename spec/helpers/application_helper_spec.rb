@@ -15,14 +15,14 @@ describe ApplicationHelper do
       @user = mock_model(Owner, {:first_name => 'Anita', :surname => 'Dearly'})
       Owner.stub!(:find).and_return(@user)
       session[:user_id] = '1'
-      session[:user_type] = 'owner'
+      session[:user_type] = 'owners'
       helper.current_user_name.should == 'Anita Dearly'
     end
     it 'should return the name of any kennel who is logged in' do
       @user = mock_model(Kennel, {:kennel_name => 'Doghouse'})
       Kennel.stub!(:find).and_return(@user)
       session[:user_id] = '1'
-      session[:user_type] = 'kennel'
+      session[:user_type] = 'kennels'
       helper.current_user_name.should == 'Doghouse'
     end
     it 'should return nil if there is no one logged in' do

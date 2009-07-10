@@ -12,8 +12,7 @@ class ApplicationController < ActionController::Base
   end
   
   def page_viewed_by_authorised_user?
-    raise request.path_parameters[:id].to_yaml
-    return true if session[:user_id] == request.path_parameters[:id] && session[:user_type] == request.path_parameters[:controller]
+    return true if session[:user_id].to_i == request.params[:id].to_i && session[:user_type] == request.params[:controller]
     false
   end
 
