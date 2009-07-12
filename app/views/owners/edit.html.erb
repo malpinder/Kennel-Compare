@@ -1,7 +1,20 @@
-<% if page_viewed_by_authorised_user? %>
-  <div>And imaginary form for editing your Account Settings</div>
-<% else %>
-  <div class="warning">
-    <%= @warning_message %>
+<% unless @owner.errors.empty? %>
+  <div class ="error">
+    <%= error_messages_for :owner %>
   </div>
 <% end %>
+<div>
+  <% form_for @owner do |f| %>
+    <p>
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+    </p>
+    <p>
+    <%= f.label :password_confirmation, "Confirm Password" %>
+    <%= f.password_field :password_confirmation %>
+    </p>
+    <p>
+    <%= f.submit 'Update' %>
+    </p>
+  <% end %>
+</div>

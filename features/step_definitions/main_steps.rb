@@ -16,7 +16,7 @@ Given /^I am a kennel manager$/ do
 end
 
 Given /^I am viewing (.*)$/ do |page|
-  visits path_to(page)
+  visit path_to(page)
 end
 
 Given /^I have a owner account$/ do

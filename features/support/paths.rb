@@ -28,11 +28,15 @@ module NavigationHelpers
       new_session_path
 
     when /the first pet owner account page/
-      owner_path(1)
+      owner_path(:id => '1')
+    when /my account page/
+      owner_path(:id => '1')
 
     when /the first pet owner edit page/
-      edit_owner_path(1)
-    
+      edit_owner_path(:id => '1')
+    when /my edit page/
+      edit_owner_path(:id => '1')
+
     # Add more mappings here.
     # Here is a more fancy example:
     #
@@ -65,6 +69,15 @@ module NavigationHelpers
       when /the login page/
         new_session_url
 
+      when /the first pet owner account page/
+        owner_url(:id => '1')
+      when /my account page/
+        owner_url(:id => '1')
+
+      when /the first pet owner edit page/
+        edit_owner_url(:id => '1')
+      when /my edit page/
+        edit_owner_url(:id => '1')
 
     # Add more mappings here.
     # Here is a more fancy example:

@@ -1,2 +1,6 @@
-<div>Your settings</div>
-<%= link_to "Edit", edit_owner_path(session[:user_id]) %>
+Someone's pet owner page.
+
+<% if logged_in? %>
+  <div>Your settings</div>
+  <%= link_to "Edit", edit_owner_path(session[:user_id]) %>
+<% end %>
