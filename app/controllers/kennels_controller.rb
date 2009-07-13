@@ -7,8 +7,7 @@ class KennelsController < ApplicationController
     @kennel = Kennel.new(params[:kennel])
 
     unless @kennel.valid?
-      render :action => :new
-      return
+      render :action => :new and return
     end
 
     @kennel.save

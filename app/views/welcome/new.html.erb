@@ -1,6 +1,8 @@
-<div>
-  <%= error_messages_for :account_type %>
-</div>
+<% if error_messages_for(:account_type) %>
+  <div class="error">
+    <%= error_messages_for :account_type %>
+  </div>
+<% end %>
 <p>What type of account do you wish to register?</p>
 <div>
   <% form_for :account, choose_account_type_path do |f| %>

@@ -14,10 +14,6 @@ describe Owner do
       before do
         @owner = Owner.new(valid_owner_attributes)
       end
-      it 'should not allow :id to be set' do
-        @owner.attributes = {:id => 101}
-        @owner.id.should_not == 101
-      end
       it 'should not allow :salt to be set' do
         @owner.attributes = {:salt => 'i_am_trying_to_set_my_salt'}
         @owner.salt.should_not == 'i_am_trying_to_set_my_salt'
@@ -27,22 +23,16 @@ describe Owner do
       before do
         @owner = Owner.create(valid_owner_attributes)
       end
-      it 'should not allow :id to be set' do
-        @owner.update_attributes(:id => 101)
-        @owner.id.should_not == 101
-      end
       it 'should not allow :salt to be set' do
         @owner.update_attributes(:salt => 'i_am_trying_to_set_my_salt')
         @owner.salt.should_not == 'i_am_trying_to_set_my_salt'
       end
-    end
+      end
   end
-    describe 'when saving new account' do
-
+  describe 'when saving new account' do
     before do
       @owner = Owner.new
     end
-
     it 'should not accept an account without a first name' do
       @owner.attributes = valid_owner_attributes.except(:first_name)
       @owner.should have(1).error_on(:first_name)
@@ -106,22 +96,25 @@ describe Owner do
     end
   end
 
-  describe 'method valid_owner_account' do
+  describe 'method existing_owner_account' do
+    def valid_login_details
+      {:first_name => 'test', :surname => 'test', :password => 'password'}
+    end
     before do
       @owner = Owner.create(valid_owner_attributes)
     end
     it 'should check the db for the existence of the provided names' do
       Owner.should_receive :find_by_first_name_and_surname
-      Owner.valid_owner_account(:first_name => 'test', :surname => 'test', :password => 'password')
+      Owner.existing_owner_account(valid_login_details)
     end
-    it 'should return nil if both names are invalid' do
-      Owner.valid_owner_account(:first_name => 'invalid', :surname => 'test', :password => 'password').should be_nil
+    it 'should return nil if both names do not match an account' do
+      Owner.existing_owner_account(:first_name => 'invalid', :surname => 'test', :password => 'password').should be_nil
     end
-    it 'should return nil if the names and password do not match' do
-      Owner.valid_owner_account(:first_name => 'test', :surname => 'test', :password =>'wrong').should be_nil
+    it 'should return nil if the password does not match the account' do
+      Owner.existing_owner_account(:first_name => 'test', :surname => 'test', :password =>'wrong').should be_nil
     end
     it 'should return the account if the names and password do match' do
-      Owner.valid_owner_account(:first_name => 'test', :surname => 'test', :password => 'password').should == @owner
+      Owner.existing_owner_account(valid_login_details).should == @owner
     end
   end
 

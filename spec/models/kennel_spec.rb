@@ -15,10 +15,6 @@ describe Kennel do
       before do
         @kennel = Kennel.new(valid_kennel_attributes)
       end
-      it 'should not allow :id to be set' do
-        @kennel.attributes = {:id => 101}
-        @kennel.id.should_not == 101
-      end
       it 'should not allow :salt to be set' do
         @kennel.attributes = {:salt => 'i_am_trying_to_set_my_salt'}
         @kennel.salt.should_not == 'i_am_trying_to_set_my_salt'
@@ -27,10 +23,6 @@ describe Kennel do
     describe 'that is updating an existing account' do
       before do
         @kennel = Kennel.create(valid_kennel_attributes)
-      end
-      it 'should not allow :id to be set' do
-        @kennel.update_attributes(:id => 101)
-        @kennel.id.should_not == 101
       end
       it 'should not allow :salt to be set' do
         @kennel.update_attributes(:salt => 'i_am_trying_to_set_my_salt')

@@ -7,8 +7,10 @@ class ApplicationController < ActionController::Base
 
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
+
+  helper_method :logged_in?, :page_viewed_by_authorised_user?
   def logged_in?
-    not session[:user_id].nil?
+    !!session[:user_id]
   end
   
   def page_viewed_by_authorised_user?

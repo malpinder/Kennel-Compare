@@ -10,7 +10,6 @@ describe KennelsController do
   end
 
   describe 'POST create' do
-
     def post_data
       {:kennel => {:kennel_name => 'test', :address => 'test', :postcode => 'A1 1AA', :password => 'testpass', :password_confirmation => 'testpass', :email => 'test@test.com'}}
     end

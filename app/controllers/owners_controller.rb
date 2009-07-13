@@ -7,8 +7,7 @@ class OwnersController < ApplicationController
     @owner = Owner.new(params[:owner])
 
     unless @owner.valid?
-      render :action => :new
-      return
+      render :action => :new and return
     end
 
     @owner.save
@@ -26,7 +25,7 @@ class OwnersController < ApplicationController
         redirect_to owner_path(session[:user_id]) and return
       else
         flash[:warning] = 'You must be logged in to view that page.'
-        redirect_to new_session_path
+        redirect_to new_session_path and return
       end
     end
 
@@ -46,8 +45,7 @@ class OwnersController < ApplicationController
 
     unless @owner.update_attributes(params[:owner])
       flash[:error] = 'Update failed.'
-      redirect_to edit_owner_path(@owner)
-      return
+      redirect_to edit_owner_path(@owner) and return
     end
 
     flash[:notice] = 'Updated details succesfully.'

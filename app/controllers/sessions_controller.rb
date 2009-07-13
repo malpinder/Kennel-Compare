@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   end
   def create
     if params[:account][:type].to_s == 'owner'
-      @owner = Owner.valid_owner_account(params[:account])
+      @owner = Owner.existing_owner_account(params[:account])
 
       if @owner.nil?
         flash[:warning] = 'Incorrect details provided.'

@@ -1,7 +1,17 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe ApplicationController do
- describe 'page_viewed_by_authorised_user?' do
+  describe 'logged_in?' do
+    it 'should return true if the session is storing an id' do
+      session[:user_id] = '1'
+      controller.logged_in?.should be_true
+    end
+    it 'should return false if the session is empty' do
+      session[:user_id] = nil
+      controller.logged_in?.should be_false
+    end
+  end
+  describe 'page_viewed_by_authorised_user?' do
     before do
       request.stub(:path_parameters).and_return({:controller => 'owners', :id => '1'})
     end
