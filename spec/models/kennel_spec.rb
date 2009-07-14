@@ -122,16 +122,16 @@ describe Kennel do
     end
     it 'should check the db for the existence of the provided name and postcode' do
       Kennel.should_receive :find_by_kennel_name_and_postcode
-      Kennel.valid_kennel_account(:kennel_name => 'test', :postcode => 'A1 1AA', :password => 'password')
+      Kennel.existing_kennel_account(:kennel_name => 'test', :postcode => 'A1 1AA', :password => 'password')
     end
     it 'should return nil if name and postcode are invalid' do
-      Kennel.valid_kennel_account(:kennel_name => 'invalid', :postcode => 'A1 1AA', :password => 'password').should be_nil
+      Kennel.existing_kennel_account(:kennel_name => 'invalid', :postcode => 'A1 1AA', :password => 'password').should be_nil
     end
     it 'should return nil if the names and password do not match' do
-      Kennel.valid_kennel_account(:kennel_name => 'test', :postcode => 'A1 1AA', :password =>'wrong').should be_nil
+      Kennel.existing_kennel_account(:kennel_name => 'test', :postcode => 'A1 1AA', :password =>'wrong').should be_nil
     end
     it 'should return the account if the names and password do match' do
-      Kennel.valid_kennel_account(:kennel_name => 'test', :postcode => 'A1 1AA', :password => 'password').should == @kennel
+      Kennel.existing_kennel_account(:kennel_name => 'test', :postcode => 'A1 1AA', :password => 'password').should == @kennel
     end
   end
 end

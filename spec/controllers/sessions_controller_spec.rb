@@ -19,7 +19,7 @@ describe SessionsController do
 
       describe 'with valid details' do
         before do
-          Owner.stub(:valid_owner_account).and_return(@oldowner)
+          Owner.stub(:existing_owner_account).and_return(@oldowner)
           post :create, post_owner_data
         end
         it 'should add the id to the session'  do
@@ -63,13 +63,13 @@ describe SessionsController do
       end
 
       it 'should ask the model if the kennel exists' do
-        Kennel.should_receive(:valid_kennel_account)
+        Kennel.should_receive(:existing_kennel_account)
         post :create, post_kennel_data
       end
 
       describe 'with a valid account' do
         before do
-          Kennel.stub!(:valid_kennel_account).and_return(@oldkennel)
+          Kennel.stub!(:existing_kennel_account).and_return(@oldkennel)
           post :create, post_kennel_data
         end
         it 'should add the id to the session'  do          
@@ -86,7 +86,7 @@ describe SessionsController do
       describe 'with invalid details' do
 
         before do
-          Kennel.stub(:valid_kennel_account).and_return(nil)
+          Kennel.stub(:existing_kennel_account).and_return(nil)
           post :create, post_kennel_data
         end
 

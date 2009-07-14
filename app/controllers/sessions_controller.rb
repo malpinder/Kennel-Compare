@@ -3,37 +3,21 @@ class SessionsController < ApplicationController
 
   end
   def create
-    if params[:account][:type].to_s == 'owner'
-      @owner = Owner.existing_owner_account(params[:account])
+    account_type = params[:account][:type]
+    return unless %w{ owner kennel }.include?(account_type)
 
-      if @owner.nil?
-        flash[:warning] = 'Incorrect details provided.'
-        redirect_to new_session_path
-        return
-      end
+    @user = account_type.capitalize.constantize.send("existing_#{account_type}_account")
 
-      session[:user_id] = @owner.id
-      session[:user_type] = 'owners'
-      flash[:notice] = 'You have been logged in.'
-      redirect_to owner_path(@owner.id)
-
-    else if params[:account][:type].to_s == 'kennel'
-      @kennel = Kennel.valid_kennel_account(params[:account])
-
-      if @kennel.nil?
-        flash[:warning] = 'Incorrect details provided.'
-        redirect_to new_session_path
-        return
-      end
-
-      session[:user_id] = @kennel.id
-      session[:user_type] = 'kennels'
-      flash[:notice] = 'You have been logged in.'
-      redirect_to kennel_path(@kennel.id)
-    else
-      raise "how'd you manage that?"
+    if @user.nil?
+      flash[:warning] = 'Incorrect details provided.'
+      redirect_to new_session_path
+      return
     end
-    end
+
+    session[:user_id] = @user.id
+    session[:user_type] = account_type.pluralize
+    flash[:notice] = 'You have been logged in.'
+    redirect_to self.send("#{account_type}_path", @user.id)
   end
 
   def destroy

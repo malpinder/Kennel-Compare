@@ -35,7 +35,7 @@ class Kennel < ActiveRecord::Base
     self.crypted_password = Digest::SHA1.hexdigest(password+salt)
   end
 
-  def self.valid_kennel_account(attrs)
+  def self.existing_kennel_account(attrs)
     name = attrs[:kennel_name]
     postcode = attrs[:postcode]
     @kennel = Kennel.find_by_kennel_name_and_postcode(name, postcode)
