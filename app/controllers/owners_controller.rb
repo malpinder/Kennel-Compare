@@ -36,7 +36,7 @@ class OwnersController < ApplicationController
       flash[:warning] = 'You do not have permission to update those details.'
       if logged_in?
         #pulls the user type and id out of the session and inserts it into the route
-        redirect_to(self.send("edit_#{session[:user_type]}_path".to_sym, {:id => session[:user_id]})) and return
+        redirect_to(self.send("edit_#{session[:user_type].singularize}_path".to_sym, {:id => session[:user_id]})) and return
       else
         redirect_to new_session_path and return
       end

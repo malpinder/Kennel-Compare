@@ -30,7 +30,7 @@ Scenario Outline: A visitor wishes to register as a pet owner
   And I fill in "Confirm Password" with "<confirmation>"
   And I fill in "Email" with "<email>"
   And I press "Register"
-  Then I <might> go to the owner account page
+  Then I <might> go to my owner account page
   And I <also might> see an error message
 
 Examples:
@@ -49,7 +49,7 @@ Scenario Outline: A visitor wishes to register a kennel
   And I fill in "Confirm Password" with "<confirmation>"
   And I fill in "Email" with "<email>"
   And I press "Register"
-  Then I <might> go to the kennel account page
+  Then I <might> go to my kennel account page
   And I <also might> see an error message
 
 Examples:

@@ -17,22 +17,22 @@ class SessionsController < ApplicationController
       flash[:notice] = 'You have been logged in.'
       redirect_to owner_path(@owner.id)
 
-      else if params[:account][:type].to_s == 'kennel'
-        @kennel = Kennel.valid_kennel_account(params[:account])
+    else if params[:account][:type].to_s == 'kennel'
+      @kennel = Kennel.valid_kennel_account(params[:account])
 
-        if @kennel.nil?
-          flash[:warning] = 'Incorrect details provided.'
-          redirect_to new_session_path
-          return
-        end
-
-        session[:user_id] = @kennel.id
-        session[:user_type] = 'kennels'
-        flash[:notice] = 'You have been logged in.'
-        redirect_to kennel_path(@kennel.id)
-      else
-        raise "how'd you manage that?"
+      if @kennel.nil?
+        flash[:warning] = 'Incorrect details provided.'
+        redirect_to new_session_path
+        return
       end
+
+      session[:user_id] = @kennel.id
+      session[:user_type] = 'kennels'
+      flash[:notice] = 'You have been logged in.'
+      redirect_to kennel_path(@kennel.id)
+    else
+      raise "how'd you manage that?"
+    end
     end
   end
 

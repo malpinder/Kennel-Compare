@@ -16,26 +16,32 @@ module NavigationHelpers
 
     when /the new owner page/
       new_owner_path
-    when /the owner account page/
-      owner_path(:id => '1')
 
     when /the new kennel page/
       new_kennel_path
-    when /the kennel account page/
-      kennel_path(:id => '1')
 
     when /the login page/
       new_session_path
 
     when /the first pet owner account page/
       owner_path(:id => '1')
-    when /my account page/
+    when /my owner account page/
       owner_path(:id => '1')
 
     when /the first pet owner edit page/
       edit_owner_path(:id => '1')
-    when /my edit page/
+    when /my owner edit page/
       edit_owner_path(:id => '1')
+
+    when /the first kennel account page/
+      kennel_path(:id => '1')
+    when /my kennel account page/
+      kennel_path(:id => '1')
+
+    when /the first kennel edit page/
+      edit_kennel_path(:id => '1')
+    when /my kennel edit page/
+      edit_kennel_path(:id => '1')
 
     # Add more mappings here.
     # Here is a more fancy example:
@@ -58,26 +64,32 @@ module NavigationHelpers
 
       when /the new owner page/
         new_owner_url
-     when /the owner account page/
-        owner_url(:id => '1')
 
       when /the new kennel page/
         new_kennel_url
-      when /the kennel account page/
-        kennel_url(:id => '1')
 
       when /the login page/
         new_session_url
 
       when /the first pet owner account page/
         owner_url(:id => '1')
-      when /my account page/
+      when /my owner account page/
         owner_url(:id => '1')
 
       when /the first pet owner edit page/
         edit_owner_url(:id => '1')
-      when /my edit page/
+      when /my owner edit page/
         edit_owner_url(:id => '1')
+
+      when /the first kennel account page/
+        kennel_url(:id => '1')
+      when /my kennel account page/
+        kennel_url(:id => '1')
+
+      when /the first kennel edit page/
+        edit_kennel_url(:id => '1')
+      when /my kennel edit page/
+        edit_kennel_url(:id => '1')
 
     # Add more mappings here.
     # Here is a more fancy example:

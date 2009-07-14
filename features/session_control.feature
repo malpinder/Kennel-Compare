@@ -14,7 +14,7 @@ Scenario Outline: An user tries to log in
   Given I am viewing the login page
   And I have a <type of> account
   When I log in with <my details>
-  Then I <might> go to the <type of> account page
+  Then I <might> go to my <type of> account page
   And I should see <a kind of> message
 
 Examples:

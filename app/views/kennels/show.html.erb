@@ -1,6 +1,6 @@
-<%#
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-%>
+A kennel page.
 
-<%= "show.html" %>
+<% if logged_in? %>
+  <div>Your settings</div>
+  <%= link_to "Edit", edit_kennel_path(session[:user_id]) %>
+<% end %>

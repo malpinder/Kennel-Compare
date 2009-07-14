@@ -134,7 +134,7 @@ describe OwnersController do
       it 'should redirect to the correct account edit page, if they are logged in' do
         controller.stub(:logged_in?).and_return(true)
         session[:user_id] = 1
-        session[:user_type] = 'kennel'
+        session[:user_type] = 'kennels'
         post :update, post_data
         response.should redirect_to(edit_kennel_path(1))
       end
