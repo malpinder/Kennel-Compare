@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     account_type = params[:account][:type]
     return unless %w{ owner kennel }.include?(account_type)
 
-    @user = account_type.capitalize.constantize.send("existing_#{account_type}_account")
+    @user = account_type.capitalize.constantize.send("existing_#{account_type}_account", params[:account])
 
     if @user.nil?
       flash[:warning] = 'Incorrect details provided.'

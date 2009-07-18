@@ -64,114 +64,70 @@ describe OwnersController do
 
   describe 'GET edit' do
     before do
-      @owner = mock_model(Owner)
-      Owner.stub!(:find).and_return(@owner)
+      Owner.stub(:find).and_return(Owner.new)
+      controller.stub(:ensure_logged_in_user).and_return(true)
+      controller.stub(:ensure_authorised_user).and_return(true)
     end
-    describe 'when viewed by the page owner' do
-      before do
-        session[:user_id] = '1'
-        session[:user_type] = 'owners'
-      end
-      it 'should not redirect them anywhere else' do
-        get :edit, :id => 1
-        response.should_not redirect_to(new_session_path)
-      end
-      it 'should not add a warning to the flash' do
-        get :edit, :id => 1
-        flash[:warning].should be_nil
-      end
+    it 'should require a logged in user to access' do
+      controller.should_receive(:ensure_logged_in_user)
+      get :edit, :id => 1
+    end
+    it 'should require an authorised owner to access' do
+      controller.should_receive(:ensure_authorised_owner).with('1')
+      get :edit, :id => 1
+    end
 
-      it 'should load up the owner details specified in the params' do
-        owner = mock_model(Owner)
-        Owner.should_receive(:find).and_return(owner)
-        get :edit, :id => 1
-      end
-    end
-    describe 'when viewed by a different user' do
-      before do
-        session[:user_id] = '2'
-        session[:user_type] = 'owners'
-      end
-      it 'should redirect them to their own page' do
-        get :edit, :id => 1
-        response.should redirect_to owner_path(session[:user_id])
-      end
-      it 'should add a warning to the flash' do
-        get :edit, :id => 1
-        flash[:warning].should_not be_nil
-      end
-    end
-    describe 'when viewed by a user who is not logged in' do
-      it 'should redirect them to the login page' do
-        get :edit, :id => 1
-        response.should redirect_to new_session_path
-      end
-      it 'should add a warning to the flash' do
-        get :edit, :id => 1
-        flash[:warning].should_not be_nil
-      end
+    it 'should load up the owner details specified in the params' do
+      owner = mock_model(Owner)
+      Owner.should_receive(:find).and_return(owner)
+      get :edit, :id => 1
     end
   end
 
   describe 'POST update' do
     def post_data
-      {:owner => {:password => 'newpass', :password_confirmation => 'newpass'}}
+      {:owner => {:password => 'newpass', :password_confirmation => 'newpass'}, :id => '1'}
     end
 
     before do
       @owner = mock_model(Owner, {:valid? => true, :update_attributes => true})
       Owner.stub!(:find).and_return(@owner)
+      controller.stub(:ensure_logged_in_user).and_return(true)
+      controller.stub(:ensure_authorised_owner).and_return(true)
     end
 
-    describe 'when posted by someone who is not the authorised user' do
-      before do
-        controller.stub(:page_viewed_by_authorised_user?).and_return(false)
-      end
-      it 'should add a warning to the flash' do
+    it 'should require a logged in user to access' do
+      controller.should_receive(:ensure_logged_in_user)
+      post :update, post_data
+    end
+    it 'should require an authorised owner to access' do
+      controller.should_receive(:ensure_authorised_owner).with('1')
+      post :update, post_data
+    end
+   
+    it 'should load up the owner details specified in the params' do
+      Owner.should_receive(:find).and_return(@owner)
+      post :update, post_data
+    end
+
+    describe 'with valid details' do
+      it 'should update the owner' do
+        @owner.should_receive :update_attributes
         post :update, post_data
-        flash[:warning].should_not be_nil
       end
-      it 'should redirect to the correct account edit page, if they are logged in' do
-        controller.stub(:logged_in?).and_return(true)
-        session[:user_id] = 1
-        session[:user_type] = 'kennels'
+
+      it 'should redirect to owner account page' do
         post :update, post_data
-        response.should redirect_to(edit_kennel_path(1))
-      end
-      it 'should redirect to the login page if they are not logged in' do
-        controller.stub(:logged_in?).and_return(false)
-        post :update, post_data
-        response.should redirect_to(new_session_path)
+        response.should redirect_to(owner_path(@owner.id))
       end
     end
-    describe 'when posted by the authorised user' do
-      before do
-        controller.stub(:page_viewed_by_authorised_user?).and_return(true)
-      end
-      it 'should load up the owner details specified in the params' do
-        Owner.should_receive(:find).and_return(@owner)
-        post :update, post_data
-      end
 
-      describe 'with valid details' do
-        it 'should update the owner' do
-          @owner.should_receive :update_attributes
-          post :update, post_data
-        end
-
-        it 'should redirect to owner account page' do
-          post :update, post_data
-          response.should redirect_to("http://test.host/owners/#{@owner.id}")
-        end
-      end
-
-      describe 'with invalid details' do
-        it 'should redirect back to the edit page' do
-          @owner = mock_model(Owner, {:valid? => false, :update_attributes => false})
-          Owner.stub!(:find).and_return(@owner)
-          post :update, {:owner => {:password => 'newpass', :password_confirmation => 'invalid'}}
-          response.should redirect_to(edit_owner_path(@owner))
-        end
+    describe 'with invalid details' do
+     it 'should redirect back to the edit page' do
+        @owner = mock_model(Owner, {:valid? => false, :update_attributes => false})
+        Owner.stub!(:find).and_return(@owner)
+        post :update, {:owner => {:password => 'newpass', :password_confirmation => 'invalid'}}
+        response.should redirect_to(edit_owner_path(@owner))
       end
     end
   end

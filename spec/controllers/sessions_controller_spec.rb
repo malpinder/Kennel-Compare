@@ -9,11 +9,11 @@ describe SessionsController do
       end
 
       def post_owner_data
-        {:account => {:type => 'owner', :first_name => 'old', :surname => 'owner', :password => 'password'}}
+        {:account => {'type' => 'owner', 'first_name' => 'old', 'surname' => 'owner', 'password' => 'password'}}
       end
 
       it 'should ask the model if the owner exists' do
-        Owner.stub(:existing_owner_account).and_return(@oldowner)
+        Owner.should_receive(:existing_owner_account).with(post_owner_data[:account])
         post :create, post_owner_data
       end
 
@@ -59,11 +59,11 @@ describe SessionsController do
       end
 
       def post_kennel_data
-        {:account => {:type => 'kennel', :kennel_name => 'old', :password => 'password'}}
+        {:account => {'type' => 'kennel', 'kennel_name' => 'old', 'password' => 'password'}}
       end
 
       it 'should ask the model if the kennel exists' do
-        Kennel.should_receive(:existing_kennel_account)
+        Kennel.should_receive(:existing_kennel_account).with(post_kennel_data[:account])
         post :create, post_kennel_data
       end
 
