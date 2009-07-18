@@ -79,8 +79,9 @@ describe Owner do
       @owner.should have(1).error_on(:email)
     end
 
-    it 'should accept an account with valid attributes' do
+    it 'should save an account with valid attributes' do
       @owner.attributes = valid_owner_attributes
+      @owner.save
       @owner.errors.should be_blank
     end
     it 'should generate a salt if the account is valid' do
@@ -93,6 +94,47 @@ describe Owner do
       @owner.save
       @owner.crypted_password.should_not be_nil
       @owner.crypted_password.should_not == @owner.password
+    end
+  end
+
+  describe 'when updating an account' do
+    before do
+      @oldowner = Owner.new(valid_owner_attributes)
+      @oldowner.save
+      @owner = Owner.find(:first)
+    end
+    describe 'with a new password' do
+      it 'should not update a user submitting a blank password' do
+        @owner.update_attributes(:password => '')
+        @owner.should have_at_least(1).error_on(:password)
+      end
+
+      it 'should not accept a user submitting a password shorter than 6 characters' do
+        @owner.update_attributes(:password => 'short', :password_confirmation => 'short')
+        @owner.should have(1).error_on(:password)
+      end
+
+      it 'should not accept a user submitting a password greater than 24 characters' do
+        @owner.update_attributes(:password => 'farfarfarfarfarfarfarfarfarfartoolong',
+                      :password_confirmation => 'farfarfarfarfarfarfarfarfarfartoolong')
+        @owner.should have(1).error_on(:password)
+      end
+
+      it 'should not accept a user submitting an uncomfirmed password' do
+        @owner.update_attributes(:password => 'newpass', :password_confirmation => 'wrong')
+        @owner.should have(1).error_on(:password)
+      end
+      it 'should store the password as a salted hash if the password has been changed' do
+        oldpass = @oldowner.crypted_password
+        @owner.update_attributes(:password => 'newpass', :password_confirmation => 'newpass')
+        @owner.crypted_password.should_not == oldpass
+        @owner.crypted_password.should_not == @owner.password
+      end
+    end
+
+    it 'should update an account with valid attributes' do
+      @owner.update_attributes(:email => 'alldogs@heaven.com')
+      @owner.errors.should be_blank
     end
   end
 

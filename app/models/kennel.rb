@@ -11,15 +11,20 @@ class Kennel < ActiveRecord::Base
   validates_format_of :postcode, :with => /^([A-PR-UWYZ0-9][A-HK-Y0-9][AEHMNPRTVXY0-9]?[ABEHMNPRVWXY0-9]? {1,2}[0-9][ABD-HJLN-UW-Z]{2}|GIR 0AA)$/i, :allow_nil => true
   validates_uniqueness_of :postcode
 
-  validates_presence_of :password
-  validates_length_of :password, :in => 6..24, :allow_nil => true
-  validates_confirmation_of :password, :allow_nil => true
+  validates_presence_of :password, :on => :create
+  validates_presence_of :password, :if => :password_set?
+  validates_length_of :password, :in => 6..24, :allow_nil => true, :if => :password_set?
+  validates_confirmation_of :password, :if => :password_set?
 
   validates_presence_of :email
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_nil => true
 
   before_save :add_salt, :encrypt_password
 
+  def password_set?
+    !self.password.nil?
+  end
+  
   def add_salt
     return if password.nil?
 

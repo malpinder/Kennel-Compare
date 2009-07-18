@@ -7,15 +7,20 @@ class Owner < ActiveRecord::Base
   validates_presence_of :first_name
   validates_presence_of :surname
 
-  validates_presence_of :password
-  validates_length_of :password, :in => 6..24, :allow_nil => true
-  validates_confirmation_of :password, :allow_nil => true
-
   validates_presence_of :email
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_nil => true
 
+  validates_presence_of :password, :on => :create
+  validates_presence_of :password, :if => :password_set?
+  validates_length_of :password, :in => 6..24, :allow_nil => true, :if => :password_set?
+  validates_confirmation_of :password, :if => :password_set?
+
   before_save :add_salt, :encrypt_password
 
+  def password_set?
+    !self.password.nil?
+  end
+  
   def add_salt
     return if password.nil?
 

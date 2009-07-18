@@ -100,8 +100,9 @@ describe Kennel do
       @kennel.should have(1).error_on(:email)
     end
 
-    it 'should accept an account with valid attributes' do
+    it 'should save an account with valid attributes' do
       @kennel.attributes = valid_kennel_attributes
+      @kennel.save
       @kennel.errors.should be_blank
     end
     it 'should generate a salt if the account is valid' do
@@ -116,6 +117,48 @@ describe Kennel do
       @kennel.crypted_password.should_not == @kennel.password
     end
   end
+
+  describe 'when updating an account' do
+    before do
+      @oldkennel = Kennel.new(valid_kennel_attributes)
+      @oldkennel.save
+      @kennel = Kennel.find(:first)
+    end
+    describe 'with a new password' do
+      it 'should not update a user submitting a blank password' do
+        @kennel.update_attributes(:password => '')
+        @kennel.should have_at_least(1).error_on(:password)
+      end
+
+      it 'should not accept a user submitting a password shorter than 6 characters' do
+        @kennel.update_attributes(:password => 'short', :password_confirmation => 'short')
+        @kennel.should have(1).error_on(:password)
+      end
+
+      it 'should not accept a user submitting a password greater than 24 characters' do
+        @kennel.update_attributes(:password => 'farfarfarfarfarfarfarfarfarfartoolong',
+                      :password_confirmation => 'farfarfarfarfarfarfarfarfarfartoolong')
+        @kennel.should have(1).error_on(:password)
+      end
+
+      it 'should not accept a user submitting an uncomfirmed password' do
+        @kennel.update_attributes(:password => 'newpass', :password_confirmation => 'wrong')
+        @kennel.should have(1).error_on(:password)
+      end
+      it 'should store the password as a salted hash if the password has been changed' do
+        oldpass = @oldkennel.crypted_password
+        @kennel.update_attributes(:password => 'newpass', :password_confirmation => 'newpass')
+        @kennel.crypted_password.should_not == oldpass
+        @kennel.crypted_password.should_not == @kennel.password
+      end
+    end
+
+    it 'should update an account with valid attributes' do
+      @kennel.update_attributes(:email => 'alldogs@heaven.com')
+      @kennel.errors.should be_blank
+    end
+  end
+
   describe 'method valid_kennel_account' do
     before do
       @kennel = Kennel.create(valid_kennel_attributes)
