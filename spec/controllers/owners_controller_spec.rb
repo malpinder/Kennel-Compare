@@ -62,6 +62,13 @@ describe OwnersController do
     end
   end
 
+  describe 'GET show' do
+    it 'should find the owner specified in the params' do
+      Owner.should_receive(:find).with('1')
+      get :show, :id => '1'
+    end
+  end
+
   describe 'GET edit' do
     before do
       Owner.stub(:find).and_return(Owner.new)

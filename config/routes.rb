@@ -14,7 +14,6 @@ ActionController::Routing::Routes.draw do |map|
   #   map.resources :products
   map.resource :session
   map.resources :owners
-  map.resources :kennels
 
   # Sample resource route with options:
   #   map.resources :products, :member => { :short => :get, :toggle => :post }, :collection => { :sold => :get }
@@ -27,6 +26,10 @@ ActionController::Routing::Routes.draw do |map|
   #     products.resources :comments
   #     products.resources :sales, :collection => { :recent => :get }
   #   end
+  map.resources :kennels do |kennels|
+    kennels.resources :reviews
+    kennels.resources :ratings, :only => [:new, :create]
+  end
 
   # Sample resource route within a namespace:
   #   map.namespace :admin do |admin|

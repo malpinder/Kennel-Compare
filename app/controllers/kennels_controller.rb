@@ -20,6 +20,9 @@ class KennelsController < ApplicationController
     session[:user_id] = @kennel.id
     redirect_to kennel_path(@kennel)
   end
+  def show
+    @kennel = Kennel.find(params[:id])
+  end
   def edit
     @kennel = Kennel.find(params[:id])
   end

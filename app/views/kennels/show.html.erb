@@ -1,6 +1,15 @@
-A kennel page.
+<% if page_viewed_by_authorised_user? %>
+  <div>You are logged in as the manager of this kennel.</div>
+  <div><%= link_to "Edit your settings and details", edit_kennel_path(@kennel) %></div>
+<% end %>
+<div><%= @kennel.kennel_name %></div>
+<div><%= @kennel.postcode %></div>
 
-<% if logged_in? %>
-  <div>Your settings</div>
-  <%= link_to "Edit", edit_kennel_path(session[:user_id]) %>
+<div>
+  <%= render :partial => 'rating', :locals => {:kennel => @kennel} %>
+</div>
+<div>Latest Reviews: </div>
+<div><%= link_to "See all reviews", kennel_review_path(@kennel) %></div>
+<% unless page_viewed_by_authorised_user? || !logged_in? %>
+  <div><%= link_to "Review these kennels", new_kennel_review_path(@kennel) %></div>
 <% end %>

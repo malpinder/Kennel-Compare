@@ -61,6 +61,13 @@ describe KennelsController do
     end
   end
 
+  describe 'GET show' do
+    it 'should find the kennel specified in the params' do
+      Kennel.should_receive(:find).with('1')
+      get :show, :id => '1'
+    end
+  end
+
   describe 'GET edit' do
     before do
       Kennel.stub(:find).and_return(Kennel.new)

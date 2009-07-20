@@ -26,6 +26,9 @@ end
 Given /^I have a kennel account$/ do
   post kennels_path, :kennel => {:kennel_name => 'valid', :address => 'test', :postcode => 'A1 1AA', :password => 'testpass', :password_confirmation => 'testpass', :email => 'test@test.com'}
 end
+Given /^there is a kennel account$/ do
+  post kennels_path, :kennel => {:kennel_name => 'valid', :address => 'test', :postcode => 'A1 1AA', :password => 'testpass', :password_confirmation => 'testpass', :email => 'test@test.com'}
+end
 
 When /^I log in with (valid|invalid) owner details$/ do |type|
   visit path_to("the login page")

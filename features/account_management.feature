@@ -6,8 +6,7 @@ Feature: Account management
 Scenario Outline: An user visits his account page
   Given I am <a user>
   When I go to my <user> account page
-  Then I should see "Your settings"
-  And I should see a link to "Edit"
+  Then I should see a link to "Edit your settings and details"
 
 Examples:
   |a user           |user   |
