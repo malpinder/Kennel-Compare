@@ -1,0 +1,2 @@
+module Kennels::RatingsHelper
+end

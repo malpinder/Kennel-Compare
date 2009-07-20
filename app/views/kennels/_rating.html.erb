@@ -1,4 +1,8 @@
-<div>Rating: <%= @kennel.rating %></div>
+<% if @kennel.number_of_ratings == 0 %>
+  <div>Rating: These kennels have not been rated yet.</div>
+<% else %>
+  <div>Rating: <%= @kennel.rating %> out of 5</div>
+<% end %>
 <% if page_viewed_by_pet_owner? %>
   <div><%= link_to "Rate these kennels", new_kennel_rating_path(@kennel) %></div>
 <% end %>

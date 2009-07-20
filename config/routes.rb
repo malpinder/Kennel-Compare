@@ -28,7 +28,7 @@ ActionController::Routing::Routes.draw do |map|
   #   end
   map.resources :kennels do |kennels|
     kennels.resources :reviews
-    kennels.resources :ratings, :only => [:new, :create]
+    kennels.resources :ratings, :only => [:new, :create], :controller => "kennels/ratings"
   end
 
   # Sample resource route within a namespace:

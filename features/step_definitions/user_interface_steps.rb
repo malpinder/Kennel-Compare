@@ -18,6 +18,10 @@ Then /^I should not see (a|an) (notice|warning|error) message$/ do |grammar, typ
    response.body.should_not have_tag("div.#{type}")
 end
 
+Then /^I should not see a rating$/ do
+  response.body.should_not contain("Rating:")
+end
+
 Then /^I should see who I am logged in as$/ do
   response.body.should contain("You are logged in as")
 end

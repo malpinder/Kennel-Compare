@@ -1,0 +1,9 @@
+<% form_for :rating, :url => kennel_ratings_path do |f| %>
+  <div>
+    <%= f.label :rating %>
+    <%= f.select :rating, [1,2,3,4,5] %>
+  </div>
+  <div>
+    <%= f.submit "Rate!" %>
+  </div>
+<% end %>

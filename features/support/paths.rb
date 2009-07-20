@@ -43,6 +43,9 @@ module NavigationHelpers
     when /my kennel edit page/
       edit_kennel_path(:id => '1')
 
+    when /the first kennel rating page/
+      new_kennel_rating_path(:kennel_id => '1')
+
     # Add more mappings here.
     # Here is a more fancy example:
     #
@@ -91,6 +94,8 @@ module NavigationHelpers
       when /my kennel edit page/
         edit_kennel_url(:id => '1')
 
+      when /the first kennel rating page/
+        new_kennel_rating_url(:kennel_id => '1')
     # Add more mappings here.
     # Here is a more fancy example:
     #
