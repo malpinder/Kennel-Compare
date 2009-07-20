@@ -63,8 +63,9 @@ describe ApplicationController do
   end
 
   describe 'ensure_authorised_owner' do
+    #ensure_authorised_user is protected, so it is tested by proxy using these and the tests for ensure_authorised_kennel
     before do
-      controller.stub(:ensure_authorised_user)
+      controller.stub(:redirect_to)
     end
     it 'should accept one argument' do
       lambda{ controller.ensure_authorised_owner('1') }.should_not raise_error
@@ -76,11 +77,44 @@ describe ApplicationController do
       controller.should_receive(:ensure_authorised_user).with('owners', '1')
       controller.ensure_authorised_owner('1')
     end
+    describe 'with an unauthorised user' do
+      before do
+        controller.stub(:page_viewed_by_authorised_user?).and_return(false)
+      end
+      it 'should add a warning to the flash' do
+        controller.ensure_authorised_owner('1')
+        flash[:warning].should_not be_nil
+      end
+      it 'should redirect to the correct account edit page, if they are logged in' do
+        controller.stub(:logged_in?).and_return(true)
+        session[:user_id] = 1
+        session[:user_type] = 'kennels'
+        controller.should_receive(:redirect_to).with(edit_kennel_path(1))
+        controller.ensure_authorised_owner('1')
+      end
+      it 'should redirect to the login page if they are not logged in' do
+        controller.stub(:logged_in?).and_return(false)
+        controller.should_receive(:redirect_to).with(new_session_path)
+        controller.ensure_authorised_owner('1')
+      end
+      it 'should return false' do
+        controller.stub(:logged_in?).and_return(false)
+        controller.ensure_authorised_owner('1').should be_false
+      end
+    end
+    describe 'with an authorised user' do
+      before do
+        controller.stub(:page_viewed_by_authorised_user?).and_return(true)
+      end
+      it 'should return true' do
+        controller.ensure_authorised_owner('1').should be_true
+      end
+    end
   end
 
   describe 'ensure_authorised_kennel' do
     before do
-      controller.stub(:ensure_authorised_user)
+      controller.stub(:redirect_to)
     end
     it 'should accept one argument' do
       lambda{ controller.ensure_authorised_kennel('1') }.should_not raise_error
@@ -92,44 +126,29 @@ describe ApplicationController do
       controller.should_receive(:ensure_authorised_user).with('kennels', '1')
       controller.ensure_authorised_kennel('1')
     end
-  end
-
-  describe 'ensure_authorised_user' do
-    before do
-      controller.stub(:redirect_to)
-    end
-    it 'should accept two arguments' do
-      lambda{ controller.ensure_authorised_user('owners', '1') }.should_not raise_error
-    end
-    it 'should accept one argument' do
-      lambda{ controller.ensure_authorised_user('owners') }.should_not raise_error
-    end
-    it 'should accept no arguments' do
-      lambda{ controller.ensure_authorised_user }.should_not raise_error
-    end
     describe 'with an unauthorised user' do
       before do
         controller.stub(:page_viewed_by_authorised_user?).and_return(false)
       end
       it 'should add a warning to the flash' do
-        controller.ensure_authorised_user
+        controller.ensure_authorised_kennel('1')
         flash[:warning].should_not be_nil
       end
       it 'should redirect to the correct account edit page, if they are logged in' do
         controller.stub(:logged_in?).and_return(true)
-        session[:user_id] = 1
-        session[:user_type] = 'kennels'
-        controller.should_receive(:redirect_to).with(edit_kennel_path(1))
-        controller.ensure_authorised_user
+        session[:user_id] = 2
+        session[:user_type] = 'owners'
+        controller.should_receive(:redirect_to).with(edit_owner_path(2))
+        controller.ensure_authorised_kennel('1')
       end
       it 'should redirect to the login page if they are not logged in' do
         controller.stub(:logged_in?).and_return(false)
         controller.should_receive(:redirect_to).with(new_session_path)
-        controller.ensure_authorised_user
+        controller.ensure_authorised_kennel('1')
       end
       it 'should return false' do
         controller.stub(:logged_in?).and_return(false)
-        controller.ensure_authorised_user.should be_false
+        controller.ensure_authorised_kennel('1').should be_false
       end
     end
     describe 'with an authorised user' do
@@ -137,7 +156,7 @@ describe ApplicationController do
         controller.stub(:page_viewed_by_authorised_user?).and_return(true)
       end
       it 'should return true' do
-        controller.ensure_authorised_user.should be_true
+        controller.ensure_authorised_kennel('1').should be_true
       end
     end
   end

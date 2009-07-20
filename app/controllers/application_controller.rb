@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
+  filter_parameter_logging :password, :encrypted_password
 
   helper_method :logged_in?, :page_viewed_by_authorised_user?
   def logged_in?
@@ -33,6 +33,8 @@ class ApplicationController < ActionController::Base
     ensure_authorised_user('kennels', user_id)
   end
 
+  protected
+  
   def ensure_authorised_user(user_type = request.params[:controller], user_id = request.params[:id])
     unless page_viewed_by_authorised_user?(user_type, user_id)
       flash[:warning] = 'You do not have permission to update those details.'
@@ -46,5 +48,4 @@ class ApplicationController < ActionController::Base
     end
     true
   end
-
 end
