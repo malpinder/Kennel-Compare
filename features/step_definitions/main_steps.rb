@@ -15,6 +15,12 @@ Given /^I am a kennel manager$/ do
   post session_path, :account => {:kennel_name => 'valid', :postcode => 'A1 1AA', :password => 'testpass', :type => 'kennel'}
 end
 
+Given /^I am a different kennel manager$/ do
+  post kennels_path, :kennel => {:kennel_name => 'oldkennel', :address => 'test', :postcode => 'A1 1AA', :password => 'testpass', :password_confirmation => 'testpass', :email => 'test@test.com'}
+  post kennels_path, :kennel => {:kennel_name => 'newkennel', :address => 'test', :postcode => 'S1 1SS', :password => 'testpass', :password_confirmation => 'testpass', :email => 'test@test.com'}
+  post session_path, :account => {:kennel_name => 'newkennel', :postcode => 'S1 1SS', :password => 'testpass', :type => 'kennel'}
+end
+
 Given /^I am viewing (.*)$/ do |page|
   visit path_to(page)
 end

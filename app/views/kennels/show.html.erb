@@ -10,6 +10,6 @@
 </div>
 <div>Latest Reviews: </div>
 <div><%= link_to "See all reviews", kennel_review_path(@kennel) %></div>
-<% unless page_viewed_by_authorised_user? || !logged_in? %>
+<% if page_viewed_by_pet_owner? %>
   <div><%= link_to "Review these kennels", new_kennel_review_path(@kennel) %></div>
 <% end %>

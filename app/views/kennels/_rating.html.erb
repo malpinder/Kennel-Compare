@@ -1,4 +1,4 @@
 <div>Rating: <%= @kennel.rating %></div>
-<% unless page_viewed_by_authorised_user? || !logged_in? %>
+<% if page_viewed_by_pet_owner? %>
   <div><%= link_to "Rate these kennels", new_kennel_rating_path(@kennel) %></div>
 <% end %>

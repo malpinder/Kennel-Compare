@@ -14,7 +14,8 @@ Scenario Outline: Someone visits a kennel home page
   And I <might> see a link to "Review these kennels"
 
 Examples:
-  |user           |might      |
-  |visitor        |should not |
-  |pet owner      |should     |
-  |kennel manager |should not |
+  |user                     |might      |
+  |visitor                  |should not |
+  |pet owner                |should     |
+  |kennel manager           |should not |
+  |different kennel manager |should not |

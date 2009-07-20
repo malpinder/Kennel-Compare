@@ -12,4 +12,9 @@ module ApplicationHelper
     end
   end
 
+  def page_viewed_by_pet_owner?
+    return true if session[:user_type].to_s == 'owners'
+    false
+  end
+
 end

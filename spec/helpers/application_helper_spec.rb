@@ -21,5 +21,17 @@ describe ApplicationHelper do
     end
   end
 
- 
+  describe 'page_viewed_by_pet_owner?' do
+    it 'should return false is there is no-one logged in' do
+      helper.page_viewed_by_pet_owner?.should be_false
+    end
+    it 'should return false if there is a different type of user logged in' do
+      session[:user_type]= 'kennels'
+      helper.page_viewed_by_pet_owner?.should be_false
+    end
+    it 'should return true if there is a pet owner logged in' do
+      session[:user_type]= 'owners'
+      helper.page_viewed_by_pet_owner?.should be_true
+    end
+  end
 end
